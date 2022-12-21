@@ -1,8 +1,5 @@
 # accesslogger
-accessloger for golang http handler
 
-
-# accesslogger
 
 [![Documentation](https://godoc.org/github.com/mashiike/accesslogger?status.svg)](https://godoc.org/github.com/mashiike/accesslogger)
 ![Latest GitHub tag](https://img.shields.io/github/tag/mashiike/accesslogger.svg)
@@ -10,8 +7,7 @@ accessloger for golang http handler
 [![Go Report Card](https://goreportcard.com/badge/mashiike/accesslogger)](https://goreportcard.com/report/mashiike/accesslogger)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mashiike/accesslogger/blob/master/LICENSE)
 
-Google OIDC Middleware for golang
-
+accessloger for golang http handler
 
 ## Requirements
   * Go 1.18 or higher. support the 3 latest versions of Go.
