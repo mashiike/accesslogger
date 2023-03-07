@@ -9,23 +9,26 @@ import (
 )
 
 type AccessLog struct {
-	RemoteAddr    string    `json:"remote_addr,omitempty"`
-	AccessedAt    time.Time `json:"accessed_at,omitempty"`
-	UserAgent     string    `json:"user_agent,omitempty"`
-	Referer       string    `json:"referer,omitempty"`
-	BasicAuthUser string    `json:"basic_auth_user,omitempty"`
-	Request       string    `json:"request,omitempty"`
-	StatusCode    int       `json:"status_code,omitempty"`
-	BodyByteSent  int       `json:"body_byte_sent,omitempty"`
-	FirstSentAt   time.Time `json:"first_sent_at,omitempty"`
-	LastSentAt    time.Time `json:"last_sent_at,omitempty"`
-	FirstSentTime int64     `json:"first_sent_time,omitempty"`
-	ResponseTime  int64     `json:"response_time,omitempty"`
+	RequestHeader  http.Header `json:"-"`
+	ResponseHeader http.Header `json:"-"`
+	RemoteAddr     string      `json:"remote_addr,omitempty"`
+	AccessedAt     time.Time   `json:"accessed_at,omitempty"`
+	UserAgent      string      `json:"user_agent,omitempty"`
+	Referer        string      `json:"referer,omitempty"`
+	BasicAuthUser  string      `json:"basic_auth_user,omitempty"`
+	Request        string      `json:"request,omitempty"`
+	StatusCode     int         `json:"status_code,omitempty"`
+	BodyByteSent   int         `json:"body_byte_sent,omitempty"`
+	FirstSentAt    time.Time   `json:"first_sent_at,omitempty"`
+	LastSentAt     time.Time   `json:"last_sent_at,omitempty"`
+	FirstSentTime  int64       `json:"first_sent_time,omitempty"`
+	ResponseTime   int64       `json:"response_time,omitempty"`
 }
 
 func NewAccessLog(r *http.Request) *AccessLog {
 	user, _, _ := r.BasicAuth()
 	l := &AccessLog{
+		RequestHeader: r.Header,
 		RemoteAddr:    coalesce(r.Header.Get("CloudFront-Viewer-Address"), r.RemoteAddr),
 		AccessedAt:    Clock(),
 		UserAgent:     r.UserAgent(),
@@ -43,6 +46,7 @@ func (l *AccessLog) WriteResponseInfo(w *ResponseWriter) *AccessLog {
 	l.LastSentAt = w.LastWriteTime
 	l.FirstSentTime = l.FirstSentAt.Sub(l.AccessedAt).Microseconds()
 	l.ResponseTime = l.LastSentAt.Sub(l.AccessedAt).Microseconds()
+	l.ResponseHeader = w.Header()
 	return l
 }
 
