@@ -37,9 +37,9 @@ func main() {
 				e.SetIndent("", "  ")
 				e.Encode(map[string]string{"status":"ok"})
 			}),
-			accesslogger.CombinedLogger(&combinedLogs),
-			//accesslogger.CombinedDLogger(&combinedDLogs),
-			//accesslogger.JSONLogger(&jsonLogs),
+			accesslogger.CombinedLogger(os.Stderr),
+			//accesslogger.CombinedDLogger(os.Stderr),
+			//accesslogger.JSONLogger(os.Stderr),
         ),
 	)
 	if err != nil {
